@@ -24,7 +24,6 @@ const getSongById = async (req, res) => {
   const id = parseInt(req.params.id);
   const SQL_QUERY =
     "SELECT review.review_reviewer, review.review_content, review.review_rating, song.song_title, artist.artist_name FROM review INNER JOIN song ON review.song_id = song.song_id INNER JOIN artist ON song.artist_id = artist.artist_id AND artist.artist_id = $1";
-  // const SQL_QUERY = "SELECT * FROM song WHERE id = $1";
   try {
     const { rows } = await query(SQL_QUERY, [id]);
     const dbResponse = rows;
@@ -42,7 +41,16 @@ const getSongById = async (req, res) => {
   }
 };
 
+const createSong = async (req, res) => {};
+
+const deleteSongBydId = async (req, res) => {};
+
+const updateSongById = async (req, res) => {};
+
 module.exports = {
   getAllSong,
   getSongById,
+  createSong,
+  deleteSongBydId,
+  updateSongById,
 };

@@ -21,16 +21,18 @@ databaseConfig.connect((err) => {
 // Export Routing
 const songRoute = require("./services/api/routes/songRoutes");
 const reviewRoute = require("./services/api/routes/reviewRoutes");
+const artistRoute = require("./services/api/routes/artistRoutes");
 
-app.use(express.json());
+app.use(bodyParser.json());
 app.use(
-  express.urlencoded({
+  bodyParser.urlencoded({
     extended: true,
   })
 );
 app.use(cors());
 app.use(helmet());
 app.use(logger("dev"));
+app.use("/api/v1/artist", artistRoute);
 app.use("/api/v1/song", songRoute);
 app.use("/api/v1/review", reviewRoute);
 
