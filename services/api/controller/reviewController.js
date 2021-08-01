@@ -70,12 +70,18 @@ const updateReviewById = async (req, res) => {
   const reviewer = req.body.reviewer;
   const content = req.body.content;
   const songId = req.body.songId;
-  const rating = review_rating;
+  const rating = req.body.rating;
   const SQL_QUERY =
-    "update review set review_reviewer = $1, review_content = $2, song_id = $3 where review_id = $4 returning *";
+    "update review set review_reviewer = $1, review_content = $2, song_id = $3, review_rating = $4 where review_id = $5 returning *";
 
   try {
-    const { rows } = await query(SQL_QUERY, [reviewer, content, songId, id]);
+    const { rows } = await query(SQL_QUERY, [
+      reviewer,
+      content,
+      songId,
+      rating,
+      id,
+    ]);
     const dbResponse = rows[0];
     if (!dbResponse) {
       errorMessage.error = `Error happened during update to the table.`;

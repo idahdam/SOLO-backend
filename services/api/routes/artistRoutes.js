@@ -4,7 +4,7 @@ const controller = require("../controller/artistController");
 // Routes
 router.get("/", controller.getAllArtists);
 router.get("/withSongs", controller.getAllArtistsWithSongs);
-router.post("/", controller.createcArtist);
+router.post("/", controller.createArtist);
 router.put("/:id", controller.updateArtistById);
 router.delete("/:id", controller.deleteArtistById);
 

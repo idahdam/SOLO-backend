@@ -22,10 +22,11 @@ databaseConfig.connect((err) => {
 const songRoute = require("./services/api/routes/songRoutes");
 const reviewRoute = require("./services/api/routes/reviewRoutes");
 const artistRoute = require("./services/api/routes/artistRoutes");
+const genreRoute = require("./services/api/routes/genreRoutes");
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );
@@ -35,6 +36,7 @@ app.use(logger("dev"));
 app.use("/api/v1/artist", artistRoute);
 app.use("/api/v1/song", songRoute);
 app.use("/api/v1/review", reviewRoute);
+app.use("/api/v1/genre", genreRoute);
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Server listening at port ${port}`);

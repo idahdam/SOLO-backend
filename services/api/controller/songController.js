@@ -41,15 +41,103 @@ const getSongById = async (req, res) => {
   }
 };
 
-const createSong = async (req, res) => {};
+const getSongByGenre = async (req, res) => {
+  const genre = req.params.genre;
+  const SQL_QUERY =
+    "SELECT * FROM song NATURAL JOIN artist WHERE genre_id = $1";
+  try {
+    const { rows } = await query(SQL_QUERY, [genre]);
+    const dbResponse = rows;
+    if (dbResponse[0] === undefined) {
+      errorMessage.error = "There are no song with id: " + id;
+      return res
+        .status(status.error)
+        .send(errorMessage.error + " " + error.code);
+    }
+    successMessage.data = dbResponse;
+    return res.status(status.success).send(successMessage);
+  } catch (error) {
+    errorMessage.error = "An error occured.";
+    return res.status(status.error).send(errorMessage.error + " " + error.code);
+  }
+};
 
-const deleteSongBydId = async (req, res) => {};
+const createSong = async (req, res) => {
+  const picture = req.body.picture;
+  const title = req.body.title;
+  const artistId = req.body.artistId;
+  const genreId = req.body.genreId;
+  const SQL_QUERY =
+    "insert into song(song_picture, song_title, artist_id, genre_id) values ($1, $2, $3, $4)";
 
-const updateSongById = async (req, res) => {};
+  try {
+    const { rows } = await query(SQL_QUERY, [
+      picture,
+      title,
+      artistId,
+      genreId,
+    ]);
+    const dbResponse = rows[0];
+    if (!dbResponse) {
+      errorMessage.error = `Error happened during adding to the table.`;
+      return res.status(status.error).send(errorMessage + " " + error.code);
+    }
+    return res.status(status.created).send(successMessage);
+  } catch (error) {
+    errorMessage.error = "Unable to add song.";
+    return res.status(status.error).send(errorMessage.error + " " + error.code);
+  }
+};
+
+const deleteSongBydId = async (req, res) => {
+  const id = req.params.id;
+  const SQL_QUERY = "delete from song where song_id = $1 returning *";
+  try {
+    const { rows } = await query(SQL_QUERY, [id]);
+    const dbResponse = rows[0];
+    if (!dbResponse) {
+      errorMessage.error = `Error happened during delete to the table.`;
+      return res.status(status.error).send(errorMessage + " " + error.code);
+    }
+    return res.status(status.nocontent).send(successMessage);
+  } catch (error) {
+    errorMessage.error = "Unable to delete song.";
+    return res.status(status.error).send(errorMessage.error + " " + error.code);
+  }
+};
+
+const updateSongById = async (req, res) => {
+  const id = req.params.id;
+  const picture = req.body.picture;
+  const title = req.body.title;
+  const artistId = req.body.artistId;
+  const genreId = req.body.genreId;
+  const SQL_QUERY =
+    "update song set song_picture = $1, song_title = $2, artist_id = $3, genre_id = $4 where song_id = $5 returning *";
+  try {
+    const { rows } = await query(SQL_QUERY, [
+      picture,
+      title,
+      artistId,
+      genreId,
+      id,
+    ]);
+    const dbResponse = rows[0];
+    if (!dbResponse) {
+      errorMessage.error = `Error happened during update to the table.`;
+      return res.status(status.error).send(errorMessage + " " + error.code);
+    }
+    return res.status(status.nocontent).send(successMessage);
+  } catch (error) {
+    errorMessage.error = "Unable to modify song.";
+    return res.status(status.error).send(errorMessage.error + " " + error.code);
+  }
+};
 
 module.exports = {
   getAllSong,
   getSongById,
+  getSongByGenre,
   createSong,
   deleteSongBydId,
   updateSongById,
