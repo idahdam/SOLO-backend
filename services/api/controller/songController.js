@@ -65,12 +65,12 @@ const getSongById = async (req, res) => {
 const getSongByGenre = async (req, res) => {
   const genre = req.params.genre;
   const SQL_QUERY =
-    "SELECT * FROM song NATURAL JOIN artist WHERE genre_id = $1";
+    "select * from song natural join artist natural join genre where song.genre_id = genre.genre_id and genre.genre_type = $1";
   try {
     const { rows } = await query(SQL_QUERY, [genre]);
     const dbResponse = rows;
     if (dbResponse[0] === undefined) {
-      errorMessage.error = "There are no song with id: " + id;
+      errorMessage.error = "There are no songs";
       return res
         .status(status.error)
         .send(errorMessage.error + " " + error.code);
