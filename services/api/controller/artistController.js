@@ -21,10 +21,11 @@ const getAllArtists = async (req, res) => {
 };
 
 const getAllArtistsWithSongs = async (req, res) => {
+  const id = req.params.id;
   const SQL_QUERY =
-    "select artist.artist_id, artist.artist_name, song.song_id, song.song_title, song.song_picture, genre.genre_type from artist inner join song on artist.artist_id = song.artist_id inner join genre on song.genre_id = genre.genre_id order by artist.artist_id desc;";
+    "select artist.artist_id, artist.artist_name, artist.artist_picture, song.song_id, song.song_title, song.song_picture, genre.genre_type from artist inner join song on artist.artist_id = song.artist_id inner join genre on song.genre_id = genre.genre_id and artist.artist_id = $1 order by artist.artist_id desc";
   try {
-    const { rows } = await query(SQL_QUERY);
+    const { rows } = await query(SQL_QUERY, [id]);
     const dbResponse = rows;
     if (dbResponse[0] === undefined) {
       errorMessage.error = "There are no artist yet";

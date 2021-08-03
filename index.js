@@ -4,7 +4,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const app = express();
 const helmet = require("helmet");
-const port = 3000;
+const port = 5000;
 const databaseConfig = require("./services/config/dbPool");
 const query = require("./services/config/dbQueries");
 
