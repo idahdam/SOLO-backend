@@ -89,7 +89,7 @@ const createSong = async (req, res) => {
   const artistId = req.body.artistId;
   const genreId = req.body.genreId;
   const SQL_QUERY =
-    "insert into song(song_picture, song_title, artist_id, genre_id) values ($1, $2, $3, $4)";
+    "insert into song(song_picture, song_title, artist_id, genre_id) values ($1, $2, $3, $4) returning *";
 
   try {
     const { rows } = await query(SQL_QUERY, [
