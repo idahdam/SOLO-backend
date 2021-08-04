@@ -20,6 +20,26 @@ const getAllArtists = async (req, res) => {
   }
 };
 
+const getArtistById = async (req, res) => {
+  const id = req.params.id;
+  const SQL_QUERY = "select * from artist where artist_id = $1";
+  try {
+    const { rows } = await query(SQL_QUERY, [id]);
+    const dbResponse = rows;
+    if (dbResponse[0] === undefined) {
+      errorMessage.error = "There are no artist yet";
+      return res
+        .status(status.error)
+        .send(errorMessage.error + " " + error.code);
+    }
+    successMessage.data = dbResponse;
+    return res.status(status.success).send(successMessage.data);
+  } catch (error) {
+    errorMessage.error = "An error happened";
+    return res.status(status.error).send(errorMessage.error + " " + error.code);
+  }
+};
+
 const getAllArtistsWithSongs = async (req, res) => {
   const id = req.params.id;
   const SQL_QUERY =
@@ -101,6 +121,7 @@ const updateArtistById = async (req, res) => {
 
 module.exports = {
   getAllArtists,
+  getArtistById,
   getAllArtistsWithSongs,
   createArtist,
   deleteArtistById,
