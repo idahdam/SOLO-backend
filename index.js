@@ -37,6 +37,9 @@ app.use("/api/v1/artist", artistRoute);
 app.use("/api/v1/song", songRoute);
 app.use("/api/v1/review", reviewRoute);
 app.use("/api/v1/genre", genreRoute);
+app.get("/", (req, res) => {
+  res.send("Welcome.");
+});
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Server listening at port ${port}`);
