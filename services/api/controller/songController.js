@@ -23,7 +23,7 @@ const getAllSong = async (req, res) => {
 const getReviewsSongById = async (req, res) => {
   const id = parseInt(req.params.id);
   const SQL_QUERY =
-    "SELECT review.review_reviewer, review.review_content, review.review_rating, song.song_title, artist.artist_name FROM review INNER JOIN song ON review.song_id = song.song_id INNER JOIN artist ON song.artist_id = artist.artist_id AND song.song_id = $1";
+    "SELECT review.review_id, review.review_reviewer, review.review_content, review.review_rating, song.song_title, artist.artist_name FROM review INNER JOIN song ON review.song_id = song.song_id INNER JOIN artist ON song.artist_id = artist.artist_id AND song.song_id = $1";
   try {
     const { rows } = await query(SQL_QUERY, [id]);
     const dbResponse = rows;
