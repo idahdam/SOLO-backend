@@ -65,7 +65,7 @@ const getSongById = async (req, res) => {
 const getSongByGenre = async (req, res) => {
   const genre = req.params.genre;
   const SQL_QUERY =
-    "select * from song natural join artist natural join genre where song.genre_id = genre.genre_id and genre.genre_type = $1";
+    "select * from song natural join artist natural join genre where song.genre_id = genre.genre_id and genre.genre_type = $1 order by song.song_id desc";
   try {
     const { rows } = await query(SQL_QUERY, [genre]);
     const dbResponse = rows;
