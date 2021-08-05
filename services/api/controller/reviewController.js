@@ -26,7 +26,7 @@ const createReviewBySongId = async (req, res) => {
 const getAllReviews = async (req, res) => {
   const SQL_QUERY =
     "select review.review_id, review.review_reviewer, review.review_content, review.review_rating, song.song_title, song.song_id, artist.artist_id, artist.artist_name" +
-    " from review inner join song on review.song_id = song.song_id inner join artist on song.artist_id = artist.artist_id";
+    " from review inner join song on review.song_id = song.song_id inner join artist on song.artist_id = artist.artist_id order by review.review_id desc";
   try {
     const { rows } = await query(SQL_QUERY);
     const dbResponse = rows;
